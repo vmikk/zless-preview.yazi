@@ -1,6 +1,6 @@
 # zless-preview.yazi
 
-`zless` previewer for `yazi`.
+Plugin for [`yazi`](https://github.com/sxyazi/yazi) terminal file manager to preview compressed text files using `zless`.
 
 To install, run:
 ``` bash
