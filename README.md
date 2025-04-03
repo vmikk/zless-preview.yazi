@@ -16,3 +16,5 @@ prepend_previewers = [
 ]
 ```
 
+To scroll rows in the preview, use `J` and `K` keys (note the capital letters).
+
