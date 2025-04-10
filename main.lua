@@ -2,7 +2,7 @@ local M = {}
 
 function M:peek(job)
   local child = Command("zless")
-    :args({ "-S", tostring(job.file.url) })
+    :args({ "-S", "-R", tostring(job.file.url) })
     :stdout(Command.PIPED)
     :stderr(Command.PIPED)
     :spawn()
