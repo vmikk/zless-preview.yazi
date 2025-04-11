@@ -1,10 +1,20 @@
 --- @since 25.4.8
 --- @sync peek
 
+-- Configuration
+local DEBUG = false  -- Set to true to enable debug messages (and run `YAZI_LOG=debug yazi`)
+
+-- Helper function for debug logging
+local function debug_log(message)
+  if DEBUG then
+    ya.err(message)
+  end
+end
+
 local M = {}
 
 function M:peek(job)
-  ya.err("Starting incremental preview for: " .. tostring(job.file.url))
+  debug_log("Starting incremental preview for: " .. tostring(job.file.url))
   
   -- Make sure we have a valid file URL
   if not job.file or not job.file.url then
@@ -18,11 +28,11 @@ function M:peek(job)
   
   -- Use popen directly with zless for incremental reading
   local cmd = string.format("zless -S -R '%s' 2>/dev/null", safe_path)
-  ya.err("Running command: " .. cmd)
+  debug_log("Running command: " .. cmd)
   
   local handle = io.popen(cmd, "r")
   if not handle then
-    ya.err("Failed to open zless process")
+    debug_log("Failed to open zless process")
     ya.preview_widgets(job, { ui.Text.parse("Error: Could not preview file with zless"):area(job.area) })
     return
   end
@@ -52,7 +62,7 @@ function M:peek(job)
   -- Close handle as soon as we have enough lines
   handle:close()
   
-  ya.err(string.format("Read %d lines incrementally", i))
+  debug_log(string.format("Read %d lines incrementally", i))
   
   if lines == "" then
     if skip > 0 then
