@@ -22,7 +22,7 @@ function M:peek(job)
 
   if not job.file or not job.file.url then
     debug_log("Error: Invalid file URL in peek")
-    ya.preview_widgets(job, { ui.Text.parse("Error: Invalid file URL"):area(job.area) })
+    ya.preview_widget(job, { ui.Text.parse("Error: Invalid file URL"):area(job.area) })
     return
   end
 
@@ -37,7 +37,7 @@ function M:peek(job)
   local handle = io.popen(cmd, "r")
   if not handle then
     debug_log("Failed to open zless process")
-    ya.preview_widgets(job, { ui.Text.parse("Error: Could not preview file with zless"):area(job.area) })
+    ya.preview_widget(job, { ui.Text.parse("Error: Could not preview file with zless"):area(job.area) })
     return
   end
 
@@ -78,14 +78,14 @@ function M:peek(job)
     else
       -- File is actually empty or unreadable
       debug_log("File appears empty or unreadable by zless.")
-      ya.preview_widgets(job, { ui.Text.parse("File is empty or not viewable with zless"):area(job.area) })
+      ya.preview_widget(job, { ui.Text.parse("File is empty or not viewable with zless"):area(job.area) })
     end
   else
     -- Replace tabs with 4 spaces
     lines = lines:gsub("\t", string.rep(" ", 4))
     debug_log("Displaying content. First few chars: " .. lines:sub(1, 50))
     -- Display content, disabling Yazi's wrapping (since zless -S handles line chopping)
-    ya.preview_widgets(job, { ui.Text.parse(lines):area(job.area):wrap(ui.Text.WRAP_NO) })
+    ya.preview_widget(job, { ui.Text.parse(lines):area(job.area) })
 
     -- If EOF was reached *before* filling the preview area, adjust skip
     -- This prevents overshooting when scrolling back up near the end.
