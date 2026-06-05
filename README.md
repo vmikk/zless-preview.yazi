@@ -12,7 +12,7 @@ and add to your `yazi.toml`:
 ``` toml
 [plugin]
 prepend_previewers = [
-    { name = "*.txt.gz", run = "zless-preview"},
+    { url = "*.txt.gz", run = "zless-preview"},
 ]
 ```
 
